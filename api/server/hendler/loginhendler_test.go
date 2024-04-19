@@ -30,7 +30,7 @@ func TestLoginHendler(t *testing.T) {
 			name:       "reg user",
 			method:     http.MethodPost,
 			path:       "/login/",
-			body:       []byte(`{"login":"login23","password":"password","role":"admin"}`),
+			body:       []byte(`{"login":"login23","password":"password"}`),
 			want:       ``,
 			statusCode: http.StatusOK,
 		},

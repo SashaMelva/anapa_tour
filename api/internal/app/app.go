@@ -45,12 +45,12 @@ func (a *App) LoginAccout(account *autenficationmodel.Account) (string, error) {
 	}
 
 	a.Logger.Info(token)
-	flag, err := a.storage.CheckJwtToken(account.Id)
-	a.Logger.Info(flag)
+	flag, err := a.storage.CheckJwtToken(accountData.Id)
+	a.Logger.Info(flag, accountData.Id)
 	if flag {
-		err = a.storage.SaveJwtToken(token, account.Id)
+		err = a.storage.SaveJwtToken(token, accountData.Id)
 	} else {
-		err = a.storage.UpdateJwtToken(token, account.Id)
+		err = a.storage.UpdateJwtToken(token, accountData.Id)
 	}
 	if err != nil {
 		return "", err

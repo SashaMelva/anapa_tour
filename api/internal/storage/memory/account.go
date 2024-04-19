@@ -23,7 +23,7 @@ func (s *Storage) CheckUniqueLogin(login string) (int, error) {
 
 func (s *Storage) CheckJwtToken(idAccount uint32) (bool, error) {
 	var accountId int
-	query := `select id from tokens where accounId=$1`
+	query := `select id from tokens where accoun_id=$1`
 	result := s.ConnectionDB.QueryRow(query, idAccount) // sql.Result
 	err := result.Scan(&accountId)
 
@@ -35,10 +35,9 @@ func (s *Storage) CheckJwtToken(idAccount uint32) (bool, error) {
 }
 
 func (s *Storage) UpdateJwtToken(token string, idAccount uint32) error {
-	var accountId int
-	query := `UPDATE set accounId = $1, token =$2 where accounId = $1`
-	result := s.ConnectionDB.QueryRow(query, idAccount, token) // sql.Result
-	err := result.Scan(&accountId)
+
+	query := `UPDATE  tokens set token = $2 where accoun_id = $1`
+	_, err := s.ConnectionDB.Exec(query, idAccount, token) // sql.Result
 
 	if err != nil {
 		return err
@@ -49,8 +48,8 @@ func (s *Storage) UpdateJwtToken(token string, idAccount uint32) error {
 
 func (s *Storage) SaveJwtToken(token string, idAccount uint32) error {
 	var accountId int
-	query := `insert into tokens(accounId, token) values($1, $2)`
-	result := s.ConnectionDB.QueryRow(query, idAccount, token) // sql.Result
+	query := `insert into tokens(accoun_id, token) values($1, $2)`
+	result := s.ConnectionDB.QueryRow(query, int(idAccount), token) // sql.Result
 	err := result.Scan(&accountId)
 
 	if err != nil {
