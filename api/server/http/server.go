@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/SashaMelva/anapa_tour/api/internal/config"
+	"github.com/SashaMelva/anapa_tour/server/hendler"
 	"go.uber.org/zap"
 )
 
@@ -25,7 +26,8 @@ func NewServer(log *zap.SugaredLogger, app *app.App, config *config.ConfigHttpSe
 		fmt.Fprintf(w, "Hello World!")
 	})
 
-	mux.HandleFunc("/event/", h.HendlerEvent)
+	mux.HandleFunc("/login/", h.LoginHendler)
+	mux.HandleFunc("/registration/", h.RegistrationHendler)
 
 	return &Server{
 		&http.Server{

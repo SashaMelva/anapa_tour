@@ -1,7 +1,10 @@
 package app
 
 import (
+	"errors"
+
 	memorystorage "github.com/SashaMelva/anapa_tour/api/internal/storage/memory"
+	autenficationmodel "github.com/SashaMelva/anapa_tour/internal/storage/model/autenfication"
 	"go.uber.org/zap"
 )
 
@@ -17,5 +20,29 @@ func New(logger *zap.SugaredLogger, storage *memorystorage.Storage) *App {
 	}
 }
 
+func (a *App) RegisterUser(user autenficationmodel.Account) (uint32, error) {
+	if user.Login == "" {
+		return 0, errors.New("Поле логин не валидно")
+	}
 
-func (a *)
+	createdAccountId, err := a.storage.CreateUser(user)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return createdAccountId, err
+}
+
+func (a *App) CheckUniqueLogin(login string) error {
+	id, err := a.storage.CheckUniqueLogin(login)
+
+	if err != nil {
+		return err
+	}
+	if id > 0 {
+		return errors.New("Пользователь с данным логином уже существует")
+	}
+
+	return nil
+}
