@@ -1,7 +1,7 @@
 package memory
 
 import (
-	loyaltymodel "github.com/SashaMelva/anapa_tour/sapi/internal/storage/model/loyalty"
+	loyaltymodel "github.com/SashaMelva/anapa_tour/internal/storage/model/loyalty"
 )
 
 func (s *Storage) CeratePin(pin *loyaltymodel.Pin) (int, error) {

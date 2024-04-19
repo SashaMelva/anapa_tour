@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	loyaltymodel "github.com/SashaMelva/anapa_tour/sapi/internal/storage/model/loyalty"
+	loyaltymodel "github.com/SashaMelva/anapa_tour/internal/storage/model/loyalty"
 )
 
 func (s *Service) PinHendler(w http.ResponseWriter, req *http.Request) {

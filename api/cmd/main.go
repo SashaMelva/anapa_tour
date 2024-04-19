@@ -36,7 +36,7 @@ func main() {
 	connection := sql.New(config.DataBase, log)
 
 	memstorage := memory.New(connection.StorageDb)
-	app := app.New(log, memstorage)
+	app := app.New(log, memstorage, config.JWTKey)
 
 	httpServer := http.NewServer(log, app, config.HttpServer)
 

@@ -8,6 +8,7 @@ import (
 )
 
 type Config struct {
+	JWTKey     string
 	HttpServer *ConfigHttpServer
 	Logger     *ConfigLogger
 	DataBase   *ConfigDB
