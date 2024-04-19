@@ -1,11 +1,11 @@
 package memory
 
-import autenficationmodel "github.com/SashaMelva/anapa_tour/api/internal/storage/model/autenfication"
+import autenficationmodel "github.com/SashaMelva/anapa_tour/internal/storage/model/autenfication"
 
-func (s *Storage) CheckUniqueLogin(account *autenficationmodel.Account) (int, error) {
+func (s *Storage) CheckUniqueLogin(login string) (int, error) {
 	var accountId int
 	query := `select id from users where login = $1 RETURNING id`
-	result := s.ConnectionDB.QueryRow(query, account.Login) // sql.Result
+	result := s.ConnectionDB.QueryRow(query, login) // sql.Result
 	err := result.Scan(&accountId)
 
 	if err != nil {
@@ -16,14 +16,14 @@ func (s *Storage) CheckUniqueLogin(account *autenficationmodel.Account) (int, er
 }
 
 func (s *Storage) RegisterAccount(account *autenficationmodel.Account) (int, error) {
-	var eventId int
+	var accountId int
 	query := `insert into accounts(login, password) values($1, $2) RETURNING id`
 	result := s.ConnectionDB.QueryRow(query, account.Login, account.Password, account.Role) // sql.Result
-	err := result.Scan(&eventId)
+	err := result.Scan(&accountId)
 
 	if err != nil {
 		return 0, err
 	}
 
-	return eventId, nil
+	return accountId, nil
 }

@@ -39,9 +39,7 @@ func (s Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx cont
 		}
 	}
 
-	err = s.app.CheckUniqueLogin(account.Login)
-
-	id, err := s.app.RegisterAccount(account)
+	id, err := s.app.RegisterAccount(&account)
 
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")

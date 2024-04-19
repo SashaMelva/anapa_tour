@@ -3,29 +3,29 @@ package app
 import (
 	"errors"
 
-	memorystorage "github.com/SashaMelva/anapa_tour/api/internal/storage/memory"
+	"github.com/SashaMelva/anapa_tour/internal/storage/memory"
 	autenficationmodel "github.com/SashaMelva/anapa_tour/internal/storage/model/autenfication"
 	"go.uber.org/zap"
 )
 
 type App struct {
-	storage *memorystorage.Storage
+	storage *memory.Storage
 	Logger  *zap.SugaredLogger
 }
 
-func New(logger *zap.SugaredLogger, storage *memorystorage.Storage) *App {
+func New(logger *zap.SugaredLogger, storage *memory.Storage) *App {
 	return &App{
 		storage: storage,
 		Logger:  logger,
 	}
 }
 
-func (a *App) RegisterUser(user autenficationmodel.Account) (uint32, error) {
+func (a *App) RegisterAccount(user *autenficationmodel.Account) (int, error) {
 	if user.Login == "" {
 		return 0, errors.New("Поле логин не валидно")
 	}
 
-	createdAccountId, err := a.storage.CreateUser(user)
+	createdAccountId, err := a.storage.RegisterAccount(user)
 
 	if err != nil {
 		return 0, err

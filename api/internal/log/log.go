@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/SashaMelva/anapa_tour/api/internal/config"
+	"github.com/SashaMelva/anapa_tour/internal/config"
 	"go.uber.org/zap"
 )
 

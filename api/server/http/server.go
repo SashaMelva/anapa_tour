@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/SashaMelva/anapa_tour/api/internal/config"
+	"github.com/SashaMelva/anapa_tour/internal/app"
+	"github.com/SashaMelva/anapa_tour/internal/config"
 	"github.com/SashaMelva/anapa_tour/server/hendler"
 	"go.uber.org/zap"
 )

@@ -3,8 +3,12 @@ package hendler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 	"time"
+
+	autenficationmodel "github.com/SashaMelva/anapa_tour/internal/storage/model/autenfication"
 )
 
 func (s *Service) RegistrationHendler(w http.ResponseWriter, req *http.Request) {
@@ -18,23 +22,34 @@ func (s *Service) RegistrationHendler(w http.ResponseWriter, req *http.Request) 
 }
 
 func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx context.Context) {
-	s.Logger.Info("handling get all events at %s\n", req.URL.Path)
+	var account autenficationmodel.Account
 
-	allUsers, err := s.app.GetAllUsers(ctx)
+	body, err := io.ReadAll(req.Body)
 
 	if err != nil {
-		s.Logger.Error(w, err.Error(), http.StatusNotFound)
-		return
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+	} else {
+		err = json.Unmarshal(body, &account)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json; charset=utf-8")
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+		}
 	}
 
-	js, err := json.Marshal(allUsers)
+	err = s.app.CheckUniqueLogin(account.Login)
+
+	id, err := s.app.RegisterAccount(&account)
 
 	if err != nil {
-		s.Logger.Error(w, err.Error(), http.StatusNotFound)
-		return
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
-	w.Write(js)
+	w.Write([]byte(fmt.Sprintf("user id : %v", id)))
 }

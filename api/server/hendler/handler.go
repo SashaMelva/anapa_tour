@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/SashaMelva/anapa_tour/api/internal/app"
+	"github.com/SashaMelva/anapa_tour/internal/app"
 	"go.uber.org/zap"
 )
 
