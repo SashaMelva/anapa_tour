@@ -52,3 +52,23 @@ func (a *App) EditPin(ctx context.Context, pin *loyaltymodel.Pin) error {
 
 	return err
 }
+
+func (a *App) GetActivePins() ([]*loyaltymodel.Pin, error) {
+	pins, err := a.storage.ListActivePins()
+
+	if err != nil {
+		a.Logger.Error(err)
+	}
+
+	return pins, nil
+}
+
+func (a *App) GetAllPinsWithAction() ([]*loyaltymodel.Pin, error) {
+	pins, err := a.storage.ListActivePins()
+
+	if err != nil {
+		a.Logger.Error(err)
+	}
+
+	return pins, nil
+}

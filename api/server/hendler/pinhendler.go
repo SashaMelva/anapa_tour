@@ -29,6 +29,7 @@ func (s *Service) PinHendler(w http.ResponseWriter, req *http.Request) {
 	} else {
 		args := req.URL.Query()
 		id := args.Get("id")
+		active := args.Get("active")
 
 		if len(id) > 0 {
 			s.Logger.Info("id event " + id)
@@ -48,6 +49,9 @@ func (s *Service) PinHendler(w http.ResponseWriter, req *http.Request) {
 				s.Logger.Error(fmt.Sprintf("expect method GET or DELETE at /event?=<id>, got %v", req.Method))
 				return
 			}
+		}
+		if active != "" {
+			s.getActivePins(w, ctx)
 		}
 	}
 
@@ -103,6 +107,26 @@ func (s *Service) getAllPins(w http.ResponseWriter, req *http.Request, ctx conte
 	s.Logger.Info("handling get all events at %s\n", req.URL.Path)
 
 	allPins, err := s.app.GetAllPins(ctx)
+
+	if err != nil {
+		s.Logger.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	js, err := json.Marshal(allPins)
+
+	if err != nil {
+		s.Logger.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	w.Write(js)
+}
+
+func (s *Service) getActivePins(w http.ResponseWriter, ctx context.Context) {
+	allPins, err := s.app.GetActivePins()
 
 	if err != nil {
 		s.Logger.Error(w, err.Error(), http.StatusNotFound)

@@ -6,8 +6,8 @@ import (
 
 func (s *Storage) CeratePin(pin *loyaltymodel.Pin) (int, error) {
 	var pinId int
-	query := `insert into pins(idAccount, token) values($1, $2) where idAccount= $2 RETURNING id`
-	result := s.ConnectionDB.QueryRow(query, pin, pin) // sql.Result
+	query := `insert into pins(coordinat, name, description, activ) values($1, $2, $3, $4) RETURNING id`
+	result := s.ConnectionDB.QueryRow(query, pin.Coordinat, pin.Name, pin.Description, pin.Activ) // sql.Result
 	err := result.Scan(&pinId)
 
 	if err != nil {
@@ -17,8 +17,19 @@ func (s *Storage) CeratePin(pin *loyaltymodel.Pin) (int, error) {
 	return pinId, nil
 }
 
+func (s *Storage) ChangeActivePointById(id uint32, activ bool) error {
+	query := `update pins set activ=$1 where id=$2`
+	_, err := s.ConnectionDB.Exec(query, activ, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s *Storage) DeletePointById(id uint32) error {
-	query := `delete from pins where id = $1`
+	query := `delete pins events where id = $1`
 	_, err := s.ConnectionDB.Exec(query, id)
 
 	if err != nil {
@@ -29,8 +40,8 @@ func (s *Storage) DeletePointById(id uint32) error {
 }
 
 func (s *Storage) EditPin(pin *loyaltymodel.Pin) error {
-	query := `update events set title=$1, description=$2, date_time_start=$3, date_time_end=$4 where id=$5`
-	_, err := s.ConnectionDB.Exec(query)
+	query := `update pins set name=$1, description=$2, coordinat=$3, activ=$4 where id=$5`
+	_, err := s.ConnectionDB.Exec(query, pin.Name, pin.Description, pin.Coordinat, pin.Activ, pin.Id)
 
 	if err != nil {
 		return err
@@ -41,7 +52,7 @@ func (s *Storage) EditPin(pin *loyaltymodel.Pin) error {
 
 func (s *Storage) ListAllPins() ([]*loyaltymodel.Pin, error) {
 	pins := []*loyaltymodel.Pin{}
-	query := `select id, title, date_time_start, date_time_end, description from events where date_time_start >= $1::timestamp and date_time_end < $2::timestamp`
+	query := `select id, name, description, coordinat, activ from pins`
 	rows, err := s.ConnectionDB.Query(query)
 
 	if err != nil {
@@ -56,6 +67,40 @@ func (s *Storage) ListAllPins() ([]*loyaltymodel.Pin, error) {
 			&pin.Id,
 			&pin.Name,
 			&pin.Description,
+			&pin.Coordinat,
+			&pin.Activ,
+		); err != nil {
+			return nil, err
+		}
+
+		pins = append(pins, &pin)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return pins, nil
+}
+
+func (s *Storage) ListActivePins() ([]*loyaltymodel.Pin, error) {
+	pins := []*loyaltymodel.Pin{}
+	query := `select id, name, description, coordinat, activ from pins where activ = true`
+	rows, err := s.ConnectionDB.Query(query)
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		pin := loyaltymodel.Pin{}
+
+		if err := rows.Scan(
+			&pin.Id,
+			&pin.Name,
+			&pin.Description,
+			&pin.Coordinat,
+			&pin.Activ,
 		); err != nil {
 			return nil, err
 		}
