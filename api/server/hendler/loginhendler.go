@@ -11,7 +11,7 @@ import (
 	autenficationmodel "github.com/SashaMelva/anapa_tour/internal/storage/model/autenfication"
 )
 
-func (s Service) LoginHendler(w http.ResponseWriter, req *http.Request) {
+func (s *Service) LoginHendler(w http.ResponseWriter, req *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
 
@@ -21,7 +21,7 @@ func (s Service) LoginHendler(w http.ResponseWriter, req *http.Request) {
 
 }
 
-func (s Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx context.Context) {
+func (s *Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx context.Context) {
 	var account autenficationmodel.Account
 
 	body, err := io.ReadAll(req.Body)
@@ -39,7 +39,7 @@ func (s Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx cont
 		}
 	}
 
-	id, err := s.app.RegisterAccount(&account)
+	token, err := s.app.LoginAccout(&account)
 
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -49,5 +49,5 @@ func (s Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx cont
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fmt.Sprintf("user id : %v", id)))
+	w.Write([]byte(fmt.Sprintf(token)))
 }
