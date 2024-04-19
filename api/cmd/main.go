@@ -30,7 +30,7 @@ func main() {
 	// 	return
 	// }
 	config := config.NewConfigApp(configFile)
-	log := log.NewLogger(config.Logger, "/logfile/")
+	log := log.NewLogger(config.Logger, "../logfile/")
 
 	//Соединение с бд
 	connection := sql.New(config.DataBase, log)

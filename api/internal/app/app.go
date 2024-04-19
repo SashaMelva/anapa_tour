@@ -44,8 +44,14 @@ func (a *App) LoginAccout(account *autenficationmodel.Account) (string, error) {
 		return "", errors.New("Ошибка генерации JWT Токена")
 	}
 
-	err = a.storage.SaveJwtToken(token, account.Id)
-
+	a.Logger.Info(token)
+	flag, err := a.storage.CheckJwtToken(account.Id)
+	a.Logger.Info(flag)
+	if flag {
+		err = a.storage.SaveJwtToken(token, account.Id)
+	} else {
+		err = a.storage.UpdateJwtToken(token, account.Id)
+	}
 	if err != nil {
 		return "", err
 	}

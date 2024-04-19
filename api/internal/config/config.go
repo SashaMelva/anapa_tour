@@ -66,6 +66,7 @@ func NewConfigApp(pahToFile string) Config {
 	}
 
 	return Config{
+		JWTKey:     viper.Get("jwtKet").(string),
 		HttpServer: &configHttpServer,
 		Logger:     &configLog,
 		DataBase:   &configDB,

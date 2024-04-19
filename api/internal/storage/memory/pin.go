@@ -6,8 +6,8 @@ import (
 
 func (s *Storage) CeratePin(pin *loyaltymodel.Pin) (int, error) {
 	var pinId int
-	query := `insert into accounts(idAccount, token) values($1, $2) where idAccount= $2 RETURNING id`
-	result := s.ConnectionDB.QueryRow(query, pin, idAccount) // sql.Result
+	query := `insert into pins(idAccount, token) values($1, $2) where idAccount= $2 RETURNING id`
+	result := s.ConnectionDB.QueryRow(query, pin, pin) // sql.Result
 	err := result.Scan(&pinId)
 
 	if err != nil {
@@ -30,7 +30,7 @@ func (s *Storage) DeletePointById(id uint32) error {
 
 func (s *Storage) EditPin(pin *loyaltymodel.Pin) error {
 	query := `update events set title=$1, description=$2, date_time_start=$3, date_time_end=$4 where id=$5`
-	_, err := s.ConnectionDB.Exec(query, pin.Title, event.Description, event.DateTimeStart, event.DateTimeEnd, event.ID)
+	_, err := s.ConnectionDB.Exec(query)
 
 	if err != nil {
 		return err
@@ -42,7 +42,7 @@ func (s *Storage) EditPin(pin *loyaltymodel.Pin) error {
 func (s *Storage) ListAllPins() ([]*loyaltymodel.Pin, error) {
 	pins := []*loyaltymodel.Pin{}
 	query := `select id, title, date_time_start, date_time_end, description from events where date_time_start >= $1::timestamp and date_time_end < $2::timestamp`
-	rows, err := s.ConnectionDB.Query(query, storage.Date(dateStart), storage.Date(dateEnd))
+	rows, err := s.ConnectionDB.Query(query)
 
 	if err != nil {
 		return nil, err
@@ -53,8 +53,8 @@ func (s *Storage) ListAllPins() ([]*loyaltymodel.Pin, error) {
 		pin := loyaltymodel.Pin{}
 
 		if err := rows.Scan(
-			&pin.ID,
-			&pin.Title,
+			&pin.Id,
+			&pin.Name,
 			&pin.Description,
 		); err != nil {
 			return nil, err
