@@ -1,0 +1,12 @@
+.toast {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  z-index: 2;
+}
+.toast-header {
+  display: flex;
+  justify-content: space-between;
+}
