@@ -33,6 +33,8 @@ func NewServer(log *zap.SugaredLogger, app *app.App, config *config.ConfigHttpSe
 	mux.HandleFunc("/action/", h.ActionHendler)
 	mux.HandleFunc("/organization/", h.OrganizationHendler)
 
+	mux.HandleFunc("/pins_vew/", h.PinsVewHendler)
+
 	return &Server{
 		&http.Server{
 			Addr:         config.Host + ":" + config.Port,

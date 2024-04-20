@@ -72,3 +72,28 @@ func (a *App) GetAllPinsWithAction() ([]*loyaltymodel.Pin, error) {
 
 	return pins, nil
 }
+
+func (a *App) VewAllActivePins() ([]*loyaltymodel.PinVewFormat, error) {
+	fmt.Println("+++")
+	activPins, err := a.storage.ListActivePinsWithOrg()
+	fmt.Println(activPins)
+	if err != nil {
+		a.Logger.Error(err)
+	}
+
+	res := []*loyaltymodel.PinVewFormat{}
+	hashId := make(map[uint32]int)
+
+	for i := range activPins {
+		if i >= 4 {
+			break
+		}
+		if hashId[activPins[i].Pin.Id] == 0 {
+			hashId[activPins[i].Pin.Id] = 1
+			res = append(res, activPins[i])
+		}
+
+	}
+
+	return res, nil
+}

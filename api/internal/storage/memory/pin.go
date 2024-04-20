@@ -84,7 +84,7 @@ func (s *Storage) ListAllPins() ([]*loyaltymodel.Pin, error) {
 
 func (s *Storage) ListActivePins() ([]*loyaltymodel.Pin, error) {
 	pins := []*loyaltymodel.Pin{}
-	query := `select id, name, description, coordinat, activ from pins where activ = true`
+	query := `select id, name, description, coordinat, activ, organization_id from pins where activ = true`
 	rows, err := s.ConnectionDB.Query(query)
 
 	if err != nil {
@@ -101,6 +101,44 @@ func (s *Storage) ListActivePins() ([]*loyaltymodel.Pin, error) {
 			&pin.Description,
 			&pin.Coordinat,
 			&pin.Activ,
+			&pin.OrgId,
+		); err != nil {
+			return nil, err
+		}
+
+		pins = append(pins, &pin)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return pins, nil
+}
+
+func (s *Storage) ListActivePinsWithOrg() ([]*loyaltymodel.PinVewFormat, error) {
+	pins := []*loyaltymodel.PinVewFormat{}
+	query := `select organization.id, organization.name,  pins.id, pins.coordinat, actions.id, actions.name, actions.description from pins
+	left join organization on organization.id = pins.organization_id 
+	left join actions on organization.id = actions.organization_id
+	where pins.activ = true and actions.category_id = 3  and actions.activ = true`
+	rows, err := s.ConnectionDB.Query(query)
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		pin := loyaltymodel.PinVewFormat{}
+
+		if err := rows.Scan(
+			&pin.Org.Id,
+			&pin.Org.Name,
+			&pin.Pin.Id,
+			&pin.Pin.Coordinat,
+			&pin.Action.Id,
+			&pin.Action.Name,
+			&pin.Action.Description,
 		); err != nil {
 			return nil, err
 		}
