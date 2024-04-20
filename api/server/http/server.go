@@ -30,6 +30,8 @@ func NewServer(log *zap.SugaredLogger, app *app.App, config *config.ConfigHttpSe
 	mux.HandleFunc("/login/", h.LoginHendler)
 	mux.HandleFunc("/registration/", h.RegistrationHendler)
 	mux.HandleFunc("/pin/", h.PinHendler)
+	mux.HandleFunc("/action/", h.ActionHendler)
+	mux.HandleFunc("/organization/", h.OrganizationHendler)
 
 	return &Server{
 		&http.Server{

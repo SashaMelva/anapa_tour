@@ -30,13 +30,6 @@ func (s *Service) ActionHendler(w http.ResponseWriter, req *http.Request) {
 		typeAction := args.Get("type")
 		active := args.Get("active")
 		orgStr := args.Get("orgId")
-		orgId, err := strconv.Atoi(orgStr)
-
-		if err != nil {
-			s.Logger.Error(fmt.Sprintf("is not valid if event id, got %v", id))
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
 
 		if len(id) > 0 {
 			s.Logger.Info("id event " + id)
@@ -51,7 +44,7 @@ func (s *Service) ActionHendler(w http.ResponseWriter, req *http.Request) {
 			case http.MethodDelete:
 				s.deletePinByID(w, intId)
 			// case http.MethodGet:
-			// 	s.getEventHandlerById(w, ctx, intId)
+			// 	s.get(w, ctx, intId)
 			default:
 				s.Logger.Error(fmt.Sprintf("expect method GET or DELETE at /event?=<id>, got %v", req.Method))
 				return
@@ -61,12 +54,41 @@ func (s *Service) ActionHendler(w http.ResponseWriter, req *http.Request) {
 		if typeAction != "" {
 			if active != "" {
 				flag, _ := strconv.ParseBool(active)
-				s.getActiveAndTypeAction(orgId, w, flag, typeAction, ctx)
+				if orgStr != "" {
+					orgId, err := strconv.Atoi(orgStr)
+
+					if err != nil {
+						s.Logger.Error(fmt.Sprintf("is not valid if event id, got %v", id))
+						http.Error(w, err.Error(), http.StatusBadRequest)
+						return
+					}
+					s.getActiveAndTypeAction(orgId, w, flag, typeAction, ctx)
+				}
 			}
 		}
 		if active != "" {
 			flag, _ := strconv.ParseBool(active)
-			s.getActiveAction(orgId, w, flag, ctx)
+			if orgStr != "" {
+				orgId, err := strconv.Atoi(orgStr)
+
+				if err != nil {
+					s.Logger.Error(fmt.Sprintf("is not valid if event id, got %v", id))
+					http.Error(w, err.Error(), http.StatusBadRequest)
+					return
+				}
+				s.getActiveAction(orgId, w, flag, ctx)
+			}
+		}
+
+		if orgStr != "" {
+			orgId, err := strconv.Atoi(orgStr)
+
+			if err != nil {
+				s.Logger.Error(fmt.Sprintf("is not valid if event id, got %v", id))
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+			s.getActiveByOrgId(orgId, w, ctx)
 		}
 	}
 
@@ -121,6 +143,26 @@ func (s *Service) deleteActionByID(w http.ResponseWriter, id int) {
 func (s *Service) getAllActions(orgId int, w http.ResponseWriter, req *http.Request, ctx context.Context) {
 	s.Logger.Info("handling get all events at %s\n", req.URL.Path)
 
+	allPins, err := s.app.GetAllAction(orgId)
+
+	if err != nil {
+		s.Logger.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	js, err := json.Marshal(allPins)
+
+	if err != nil {
+		s.Logger.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	w.Write(js)
+}
+
+func (s *Service) getActiveByOrgId(orgId int, w http.ResponseWriter, ctx context.Context) {
 	allPins, err := s.app.GetAllAction(orgId)
 
 	if err != nil {
