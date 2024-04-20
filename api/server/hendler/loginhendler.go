@@ -10,12 +10,6 @@ import (
 	autenficationmodel "github.com/SashaMelva/anapa_tour/internal/storage/model/autenfication"
 )
 
-type RequestAuth struct {
-	Token     string `json:"Token"`
-	Role      string `json:"role"`
-	IdAccount string `json:"id_account"`
-}
-
 func (s *Service) LoginHendler(w http.ResponseWriter, req *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()

@@ -24,9 +24,15 @@ func New(logger *zap.SugaredLogger, storage *memory.Storage, jwtKey string) *App
 	}
 }
 
-func (a *App) LoginAccout(account *autenficationmodel.Account) (hendler.RequestAuth, error) {
+type RequestAuth struct {
+	Token     string `json:"Token"`
+	Role      string `json:"role"`
+	IdAccount uint32 `json:"id_account"`
+}
+
+func (a *App) LoginAccout(account *autenficationmodel.Account) (RequestAuth, error) {
 	accountData, err := a.storage.GetAccountByLogin(account.Login)
-	req := hendler.RequestAuth{}
+	req := RequestAuth{}
 
 	if err != nil {
 		return req, err
@@ -57,7 +63,7 @@ func (a *App) LoginAccout(account *autenficationmodel.Account) (hendler.RequestA
 		return req, err
 	}
 
-	return req{
+	return RequestAuth{
 		Token:     token,
 		Role:      accountData.Role,
 		IdAccount: accountData.Id}, nil
