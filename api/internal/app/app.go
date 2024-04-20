@@ -24,24 +24,25 @@ func New(logger *zap.SugaredLogger, storage *memory.Storage, jwtKey string) *App
 	}
 }
 
-func (a *App) LoginAccout(account *autenficationmodel.Account) (string, error) {
+func (a *App) LoginAccout(account *autenficationmodel.Account) (hendler.RequestAuth, error) {
 	accountData, err := a.storage.GetAccountByLogin(account.Login)
+	req := hendler.RequestAuth{}
 
 	if err != nil {
-		return "", err
+		return req, err
 	}
 	if accountData.Password == "" {
-		return "", errors.New("Пользователя с таким email не существует")
+		return req, errors.New("Пользователя с таким email не существует")
 	}
 	if accountData.Password != account.Password {
-		return "", errors.New("Неверный пароль")
+		return req, errors.New("Неверный пароль")
 	}
 
 	token, err := pkg.GenerateToken(account.Id, account.Role, a.JwtKey)
 
 	if err != nil {
 		log.Fatal(err)
-		return "", errors.New("Ошибка генерации JWT Токена")
+		return req, errors.New("Ошибка генерации JWT Токена")
 	}
 
 	a.Logger.Info(token)
@@ -53,10 +54,13 @@ func (a *App) LoginAccout(account *autenficationmodel.Account) (string, error) {
 		err = a.storage.UpdateJwtToken(token, accountData.Id)
 	}
 	if err != nil {
-		return "", err
+		return req, err
 	}
 
-	return token, nil
+	return req{
+		Token:     token,
+		Role:      accountData.Role,
+		IdAccount: accountData.Id}, nil
 }
 
 func (a *App) RegisterAccount(user *autenficationmodel.Account) (int, error) {

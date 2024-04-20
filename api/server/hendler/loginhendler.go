@@ -3,13 +3,18 @@ package hendler
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"time"
 
 	autenficationmodel "github.com/SashaMelva/anapa_tour/internal/storage/model/autenfication"
 )
+
+type RequestAuth struct {
+	Token     string `json:"Token"`
+	Role      string `json:"role"`
+	IdAccount string `json:"id_account"`
+}
 
 func (s *Service) LoginHendler(w http.ResponseWriter, req *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
@@ -39,7 +44,7 @@ func (s *Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx con
 		}
 	}
 
-	token, err := s.app.LoginAccout(&account)
+	reqAuth, err := s.app.LoginAccout(&account)
 
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -47,7 +52,13 @@ func (s *Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx con
 		w.Write([]byte(err.Error()))
 	}
 
+	js, err := json.Marshal(reqAuth)
+
+	if err != nil {
+		s.Logger.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fmt.Sprintf(token)))
+	w.Write(js)
 }
