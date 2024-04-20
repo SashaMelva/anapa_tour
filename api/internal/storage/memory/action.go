@@ -4,8 +4,8 @@ import loyaltymodel "github.com/SashaMelva/anapa_tour/internal/storage/model/loy
 
 func (s *Storage) CerateAction(action *loyaltymodel.Action) (int, error) {
 	var pinId int
-	query := `insert into actions(name, description,type,date_start, date_end, activ) values($1, $2, $3, $4, $5, $6) RETURNING id`
-	result := s.ConnectionDB.QueryRow(query, action.Name, action.Description, action.Type, action.DateStart, action.DateEnd, action.Activ) // sql.Result
+	query := `insert into actions(name, description,category_id,date_start, date_end, activ, organization_id) values($1, $2, $3, $4, $5, $6, $7) RETURNING id`
+	result := s.ConnectionDB.QueryRow(query, action.Name, action.Description, action.CategoryId, action.DateStart, action.DateEnd, action.Activ, action.OrgId) // sql.Result
 	err := result.Scan(&pinId)
 
 	if err != nil {
@@ -38,8 +38,8 @@ func (s *Storage) DeleteActionById(id uint32) error {
 }
 
 func (s *Storage) EditAction(action *loyaltymodel.Action) error {
-	query := `update actions set name=$1, description=$2, type=$3, date_start=$4, date_end=$5, activ=$6 where id=$7`
-	_, err := s.ConnectionDB.Exec(query, action.Name, action.Description, action.Type, action.DateStart, action.DateEnd, action.Activ, action.Id)
+	query := `update actions set name=$1, description=$2, category_id=$3, date_start=$4, date_end=$5, activ=$6 where id=$7`
+	_, err := s.ConnectionDB.Exec(query, action.Name, action.Description, action.CategoryId, action.DateStart, action.DateEnd, action.Activ, action.Id)
 
 	if err != nil {
 		return err
@@ -48,10 +48,10 @@ func (s *Storage) EditAction(action *loyaltymodel.Action) error {
 	return nil
 }
 
-func (s *Storage) ListAllActions() ([]*loyaltymodel.Action, error) {
+func (s *Storage) ListAllActions(organizationId int) ([]*loyaltymodel.Action, error) {
 	pins := []*loyaltymodel.Action{}
-	query := `select id, name, description, type, date_start, date_end, activ from actions`
-	rows, err := s.ConnectionDB.Query(query)
+	query := `select id, name, description, category_id, date_start, date_end, activ from actions where organization_id = $1`
+	rows, err := s.ConnectionDB.Query(query, organizationId)
 
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (s *Storage) ListAllActions() ([]*loyaltymodel.Action, error) {
 			&pin.Id,
 			&pin.Name,
 			&pin.Description,
-			&pin.Type,
+			&pin.CategoryId,
 			&pin.DateStart,
 			&pin.DateEnd,
 			&pin.Activ,
@@ -82,10 +82,10 @@ func (s *Storage) ListAllActions() ([]*loyaltymodel.Action, error) {
 	return pins, nil
 }
 
-func (s *Storage) ListActiveAction(flag bool) ([]*loyaltymodel.Action, error) {
+func (s *Storage) ListActiveAction(flag bool, org int) ([]*loyaltymodel.Action, error) {
 	pins := []*loyaltymodel.Action{}
-	query := `select id, name, description, type, date_start, date_end, activ from actions where activ = $1`
-	rows, err := s.ConnectionDB.Query(query, flag)
+	query := `select id, name, description, category_id, date_start, date_end, activ from actions where activ = $1 and organization_id = $2`
+	rows, err := s.ConnectionDB.Query(query, flag, org)
 
 	if err != nil {
 		return nil, err
@@ -99,7 +99,7 @@ func (s *Storage) ListActiveAction(flag bool) ([]*loyaltymodel.Action, error) {
 			&pin.Id,
 			&pin.Name,
 			&pin.Description,
-			&pin.Type,
+			&pin.CategoryId,
 			&pin.DateStart,
 			&pin.DateEnd,
 			&pin.Activ,
@@ -116,10 +116,10 @@ func (s *Storage) ListActiveAction(flag bool) ([]*loyaltymodel.Action, error) {
 	return pins, nil
 }
 
-func (s *Storage) ListActiveAndTypeAction(flag bool, typeAction string) ([]*loyaltymodel.Action, error) {
+func (s *Storage) ListActiveAndTypeAction(flag bool, typeAction string, orgId int) ([]*loyaltymodel.Action, error) {
 	pins := []*loyaltymodel.Action{}
-	query := `select id, name, description, type, date_start, date_end, activ from actions where activ = $1 and type = $2`
-	rows, err := s.ConnectionDB.Query(query, flag, typeAction)
+	query := `select id, name, description, category_id, date_start, date_end, activ from actions where activ = $1 and category_id = $2 and organization_id = $3`
+	rows, err := s.ConnectionDB.Query(query, flag, typeAction, orgId)
 
 	if err != nil {
 		return nil, err
@@ -133,7 +133,7 @@ func (s *Storage) ListActiveAndTypeAction(flag bool, typeAction string) ([]*loya
 			&pin.Id,
 			&pin.Name,
 			&pin.Description,
-			&pin.Type,
+			&pin.CategoryId,
 			&pin.DateStart,
 			&pin.DateEnd,
 			&pin.Activ,

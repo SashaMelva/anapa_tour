@@ -43,8 +43,8 @@ func (a *App) EditAction(ctx context.Context, action *loyaltymodel.Action) error
 	return err
 }
 
-func (a *App) GetActiveAction(activ bool) ([]*loyaltymodel.Action, error) {
-	pins, err := a.storage.ListActiveAction(activ)
+func (a *App) GetActiveAction(activ bool, org int) ([]*loyaltymodel.Action, error) {
+	pins, err := a.storage.ListActiveAction(activ, org)
 
 	if err != nil {
 		a.Logger.Error(err)
@@ -52,8 +52,8 @@ func (a *App) GetActiveAction(activ bool) ([]*loyaltymodel.Action, error) {
 
 	return pins, nil
 }
-func (a *App) GetActiveAndTypeAction(activ bool, typeAction string) ([]*loyaltymodel.Action, error) {
-	pins, err := a.storage.ListActiveAndTypeAction(activ, typeAction)
+func (a *App) GetActiveAndTypeAction(activ bool, typeAction string, org int) ([]*loyaltymodel.Action, error) {
+	pins, err := a.storage.ListActiveAndTypeAction(activ, typeAction, org)
 
 	if err != nil {
 		a.Logger.Error(err)
@@ -62,8 +62,8 @@ func (a *App) GetActiveAndTypeAction(activ bool, typeAction string) ([]*loyaltym
 	return pins, nil
 }
 
-func (a *App) GetAllAction() ([]*loyaltymodel.Action, error) {
-	pins, err := a.storage.ListAllActions()
+func (a *App) GetAllAction(org int) ([]*loyaltymodel.Action, error) {
+	pins, err := a.storage.ListAllActions(org)
 
 	if err != nil {
 		a.Logger.Error(err)

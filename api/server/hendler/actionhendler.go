@@ -22,13 +22,21 @@ func (s *Service) ActionHendler(w http.ResponseWriter, req *http.Request) {
 		case http.MethodPut:
 			s.updateAction(w, req, ctx)
 		default:
-			s.getAllActions(w, req, ctx)
+
 		}
 	} else {
 		args := req.URL.Query()
 		id := args.Get("id")
 		typeAction := args.Get("type")
 		active := args.Get("active")
+		orgStr := args.Get("orgId")
+		orgId, err := strconv.Atoi(orgStr)
+
+		if err != nil {
+			s.Logger.Error(fmt.Sprintf("is not valid if event id, got %v", id))
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
 
 		if len(id) > 0 {
 			s.Logger.Info("id event " + id)
@@ -53,12 +61,12 @@ func (s *Service) ActionHendler(w http.ResponseWriter, req *http.Request) {
 		if typeAction != "" {
 			if active != "" {
 				flag, _ := strconv.ParseBool(active)
-				s.getActiveAndTypeAction(w, flag, typeAction, ctx)
+				s.getActiveAndTypeAction(orgId, w, flag, typeAction, ctx)
 			}
 		}
 		if active != "" {
 			flag, _ := strconv.ParseBool(active)
-			s.getActiveAction(w, flag, ctx)
+			s.getActiveAction(orgId, w, flag, ctx)
 		}
 	}
 
@@ -110,10 +118,10 @@ func (s *Service) deleteActionByID(w http.ResponseWriter, id int) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func (s *Service) getAllActions(w http.ResponseWriter, req *http.Request, ctx context.Context) {
+func (s *Service) getAllActions(orgId int, w http.ResponseWriter, req *http.Request, ctx context.Context) {
 	s.Logger.Info("handling get all events at %s\n", req.URL.Path)
 
-	allPins, err := s.app.GetAllAction()
+	allPins, err := s.app.GetAllAction(orgId)
 
 	if err != nil {
 		s.Logger.Error(w, err.Error(), http.StatusNotFound)
@@ -132,8 +140,8 @@ func (s *Service) getAllActions(w http.ResponseWriter, req *http.Request, ctx co
 	w.Write(js)
 }
 
-func (s *Service) getActiveAction(w http.ResponseWriter, flag bool, ctx context.Context) {
-	allPins, err := s.app.GetActiveAction(flag)
+func (s *Service) getActiveAction(orgId int, w http.ResponseWriter, flag bool, ctx context.Context) {
+	allPins, err := s.app.GetActiveAction(flag, orgId)
 
 	if err != nil {
 		s.Logger.Error(w, err.Error(), http.StatusNotFound)
@@ -152,8 +160,8 @@ func (s *Service) getActiveAction(w http.ResponseWriter, flag bool, ctx context.
 	w.Write(js)
 }
 
-func (s *Service) getActiveAndTypeAction(w http.ResponseWriter, flag bool, typeAction string, ctx context.Context) {
-	allPins, err := s.app.GetActiveAndTypeAction(flag, typeAction)
+func (s *Service) getActiveAndTypeAction(orgId int, w http.ResponseWriter, flag bool, typeAction string, ctx context.Context) {
+	allPins, err := s.app.GetActiveAndTypeAction(flag, typeAction, orgId)
 
 	if err != nil {
 		s.Logger.Error(w, err.Error(), http.StatusNotFound)
