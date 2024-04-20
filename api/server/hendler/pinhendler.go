@@ -19,8 +19,6 @@ func (s *Service) PinHendler(w http.ResponseWriter, req *http.Request) {
 		switch req.Method {
 		case http.MethodPost:
 			s.ceratePin(w, req, ctx)
-		// case http.MethodDelete:
-		// 	s.app.DeletePin(w, req)
 		case http.MethodPut:
 			s.updatePin(w, req, ctx)
 		default:
