@@ -33,8 +33,6 @@ class Registration extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(event)
-
     const data = {
       login: this.state.login,
       password: this.state.password
@@ -55,7 +53,7 @@ class Registration extends React.Component {
 
   render() {
     if(this.props.isAuth) {
-      return <Navigate to="/personArea"/>
+      return <Navigate to="/personArea/myMap"/>
     }
     return <div className={'authorization'}>
       <form onSubmit={this.handleSubmit} className="Primary">

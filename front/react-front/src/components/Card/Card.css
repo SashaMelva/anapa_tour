@@ -1,0 +1,118 @@
+.card_like {
+  background: url(../../assets/images/like.svg) 50% 50% no-repeat;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.card_header {
+  pointer-events: none;
+}
+
+.card_item {
+  background: url(../../assets/images/hotel1.png) 50% 50% no-repeat;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 15px;
+  padding: 10px;
+  -webkit-box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
+  
+}
+.card_itemBlock {
+  transition-duration: 0.5;
+  cursor: pointer;
+} 
+/* .card_itemBlock :hover {
+  -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+} */
+.card_bonusBtn {
+  pointer-events: all !important;
+  margin-left: auto;
+  margin-right: 0;
+  border: 0;
+  width: 150px;
+  font-size: 12px;
+  border-radius: 0 0 15px 15px;
+  background-color: #484AA1;
+}
+ 
+.card_distImg {
+  background: url(../../assets/images/beach.svg) 50% 50% no-repeat;
+  padding: 12px;
+}
+
+.card_distText {
+  margin: auto 0;
+}
+
+.card_bonuses {
+  max-width: 160px;
+}
+
+.card_body {
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.card_comments {
+  text-align: end;
+}
+
+.card_starsImg {
+  background: url(../../assets/images/stars.svg) 50% 50% no-repeat;
+  padding: 7px 45px;
+}
+
+.card_rating {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+}
+
+.card_right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card_name {
+  text-align: end;
+  padding-right: 5px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.card_left {
+  display: flex;
+  flex-direction: column;
+  padding-right: 5px;
+  gap: 5px;
+  border-right: 2px solid #484AA1;
+}
+
+.card_price {
+  font-size: 12px;
+}
+
+.card_dist {
+  display: flex;
+}
+
+.card_info {
+  pointer-events: none;
+  background-color: #fff;
+  border-radius: 15px 15px 0 15px;
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 500;
+}

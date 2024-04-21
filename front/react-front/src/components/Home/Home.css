@@ -1,0 +1,36 @@
+.main {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+}
+
+.main_left {
+  width: 50%;
+}
+
+.main_right {
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.formGroupCss {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+.myFormMain {
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+}
+.main_left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+}
+
+.main_leftHeader, .main_leftFooter {
+  display: flex;
+  gap: 10px;
+  justify-content: start;
+}

@@ -1,0 +1,72 @@
+.map_mainBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.map_balanceBlock {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  align-items: end;
+}
+
+.map_balanceText {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.map_balanceBlock p {
+  margin: 0;
+}
+
+.map_balanceImg {
+  background: url(../../assets/images/balance.svg) 50% 50% no-repeat;
+  padding: 20px;
+}
+
+.chest_img {
+  background: url(../../assets/images/chest.svg) 50% 50% no-repeat;
+  padding: 40px
+
+}
+.chest_block {
+  display: flex;
+  cursor: pointer;
+  border-radius: 15px 7px 15px 15px;
+  border: 3px solid #484AA1;
+  padding: 2px 5px;
+}
+
+.chest_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.chest_headerText {
+  font-weight: 500;
+}
+
+.chest_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chestsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 450px;
+  max-height: 400px;
+  overflow: auto
+}
+
+.cheastImgBtn {
+  display: flex;
+  justify-content: space-between;
+}

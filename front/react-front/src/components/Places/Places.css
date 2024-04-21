@@ -1,0 +1,13 @@
+.place_items .card_item {
+  background: url(../../assets/images/festival1.png) 50% 50% no-repeat;
+}
+.place_items .card_distImg {
+  display: none;
+}
+.place_items {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}

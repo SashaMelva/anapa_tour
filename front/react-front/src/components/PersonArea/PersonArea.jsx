@@ -4,6 +4,7 @@ import { Form, Button } from "react-bootstrap";
 import { authApi } from "../../api/authApi";
 import { Toast } from "react-bootstrap";
 import { setToastAc } from "../../redux/toastReducer";
+import "./PersonArea.css"
 
 const mapStateToProps = (state) => {
   return {
