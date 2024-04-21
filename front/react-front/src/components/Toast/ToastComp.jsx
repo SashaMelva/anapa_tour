@@ -27,9 +27,9 @@ class ToastComp extends React.Component {
 
   
   render() {
-      return <Toast className="Primary toast bg-warning text-dark" show={this.props.toastObj ? true : false} delay={this.props.toastObj?.delay ? this.props.toastObj?.delay : 3000} onClose={this.handleClose}>
-        <Toast.Header className="text-body">Внимание!</Toast.Header>
-        <Toast.Body className="text-body">{this.props.toastObj?.body}</Toast.Body>
+      return <Toast className="Primary toast" show={this.props.toastObj ? true : false} delay={this.props.toastObj?.delay ? this.props.toastObj?.delay : 3000} onClose={this.handleClose}>
+        <Toast.Header>Внимание!</Toast.Header>
+        <Toast.Body>{this.props.toastObj?.body}</Toast.Body>
       </Toast> 
   }
 }

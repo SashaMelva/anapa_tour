@@ -20,7 +20,8 @@ class Registration extends React.Component {
     this.state = {
       login: '',
       password: '',
-      passwordAgain: ''
+      passwordAgain: '',
+      isRegistration: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,7 +39,7 @@ class Registration extends React.Component {
       password: this.state.password
     }
 
-    if(this.props.auth) {
+    if(!this.state.isRegistration) {
       authApi.login(data)
     } else {
       if(this.state.password === this.state.passwordAgain) {
@@ -52,8 +53,9 @@ class Registration extends React.Component {
   }
 
   render() {
+    const isReg = this.state.isRegistration
     if(this.props.isAuth) {
-      return <Navigate to="/personArea/myMap"/>
+      return <Navigate to="/home"/>
     }
     return <div className={'authorization'}>
       <form onSubmit={this.handleSubmit} className="Primary">
@@ -75,7 +77,7 @@ class Registration extends React.Component {
             onChange={event => this.handleChange(event, 'password')} 
           />
         </label>
-        <label>
+        {isReg && <label>
           Повторный пароль:
           <Form.Control 
             required 
@@ -83,8 +85,9 @@ class Registration extends React.Component {
             value={this.state.passwordAgain} 
             onChange={event => this.handleChange(event, 'passwordAgain')} 
           />
-        </label>
+        </label>}
         <Button variant="primary" type="submit" value="Отправить" style={{marginTop: "10px"}}>Войти</Button>
+        <div style={{cursor: "pointer"}} onClick={() => this.setState({isRegistration: true})}>Регистрация</div>
       </form>
     </div>
   }

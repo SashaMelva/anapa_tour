@@ -7,6 +7,7 @@ import { setToastAc } from "../../redux/toastReducer";
 import { YMaps, Map, Route } from '@pbe/react-yandex-maps';
 import { useRef, useEffect, useState } from "react";
 import "./Home.css"
+import { Navigate } from "react-router-dom";
 
 const mapStateToProps = (state) => {
   return {
@@ -25,9 +26,11 @@ const MyForm = () => {
     availability: 'male',
     byCar: false,
     byPublicTr: false,
-    byFoot: false,
+    byFoot: false, 
     hasHome: false
   });
+  const [toNavigate, setToNavigate] = React.useState(false);
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -42,7 +45,11 @@ const MyForm = () => {
   };
 
   const onSubmiFormtBtn = () => {
-    
+    setToNavigate(true)
+  }
+
+  if(toNavigate) {
+    return  <Navigate to="/main/routeOptions"/>
   }
 
   return (
@@ -115,7 +122,7 @@ const MyForm = () => {
       <Form.Group controlId="hasHome">
         <Form.Check type="checkbox" name="hasHome" label="В жилье нет необходимости " checked={formData.hasHome} onChange={handleChange} />
       </Form.Group>
-      <Button variant="primary" type="submit" onClick={onSubmiFormtBtn()}>
+      <Button variant="primary" type="submit" onClick={onSubmiFormtBtn}>
         Сформировать варианты отдыха
       </Button> 
     </Form>

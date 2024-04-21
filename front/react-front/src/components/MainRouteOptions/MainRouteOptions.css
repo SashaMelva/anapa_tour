@@ -1,0 +1,81 @@
+.routeCards_item {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  align-items: end;
+  width: 100%;
+  max-height: 130px;
+  cursor: pointer;
+  background: url(../../assets/images/routeOptions1.png) 50% 50% no-repeat;
+  border-radius: 10px;
+}
+.routeCadrs_itemBlock {
+  background-color: #fff;
+  border: 1px solid black;
+  width: 70%;
+  padding: 10px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 10px 10px 0;
+}
+.routeCards_item p {
+  text-align: center;
+  margin: 0;
+}
+.routeCards_itemInfo {
+  display: flex;
+  font-size: 10px;
+  justify-content: start;
+  flex-direction: column;
+}
+.routeCards_itemFooter {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.routeCards_itemInfo div {
+  display: flex;
+  gap: 5px;
+}
+
+.routeCards_items {
+  max-height: 70vh;
+  overflow: auto;
+}
+.mainRouter_right {
+  justify-content: center;
+  flex-direction: column;
+}
+.routeCards_content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px
+}
+.btn {
+  background-color: #484AA1;
+  border: 0
+}
+.cameraCards_itemImg {
+  background: url(../../assets/images/camera1.png) 50% 50% no-repeat;
+  padding: 120px;
+}
+.cameraCards_item {
+  display: flex;
+}
+.cameraCards_itemBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 10px;
+}
+.cameraCards_items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px
+}
+.camerCards_content {
+  width: 100%;
+}

@@ -16,6 +16,7 @@ import Hotels from './components/Hotels/Hotels';
 import Restaurants from './components/Restaurants/Restaurants';
 import Places from './components/Places/Places';
 import Home from './components/Home/Home';
+import MainRouteOptions from './components/MainRouteOptions/MainRouteOptions';
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function InnerApp() {
                 <Route path="/restaurants" element={<Restaurants/>}/>
                 <Route path="/places" element={<Places/>}/>
                 <Route path="/home" element={<Home/>}/>
+                <Route path="/main/routeOptions" element={<MainRouteOptions/>}/>
               </Routes>
             </div>
           </React.Suspense>
