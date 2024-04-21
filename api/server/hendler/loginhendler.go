@@ -26,12 +26,16 @@ func (s *Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx con
 	body, err := io.ReadAll(req.Body)
 
 	if err != nil {
+
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
 	} else {
 		err = json.Unmarshal(body, &account)
 		if err != nil {
+
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			w.Header().Set("Content-Type", "application/json; charset=utf-8")
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -41,6 +45,8 @@ func (s *Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx con
 	reqAuth, err := s.app.LoginAccout(&account)
 
 	if err != nil {
+
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
@@ -52,6 +58,8 @@ func (s *Service) loginAccount(w http.ResponseWriter, req *http.Request, ctx con
 		s.Logger.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 	w.Write(js)
