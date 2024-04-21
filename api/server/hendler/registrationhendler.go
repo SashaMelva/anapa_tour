@@ -26,6 +26,8 @@ func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx conte
 
 	body, err := io.ReadAll(req.Body)
 	s.Logger.Info("parse")
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusBadRequest)
