@@ -65,5 +65,5 @@ func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx conte
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fmt.Sprintf("id : %v", id)))
+	w.Write([]byte(fmt.Sprintf(`{"id" : %v}`, id)))
 }

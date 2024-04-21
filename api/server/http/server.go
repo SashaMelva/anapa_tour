@@ -40,7 +40,18 @@ func NewServer(log *zap.SugaredLogger, app *app.App, config *config.ConfigHttpSe
 	mux.HandleFunc("/change_bonuse/", h.ChangeBonusHendler)
 	mux.HandleFunc("/promotion/", h.PromotionHendler)
 
-	handler := cors.Default().Handler(mux)
+	cors := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{
+			http.MethodPost,
+			http.MethodGet,
+			http.MethodDelete,
+			http.MethodPut,
+		},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: false,
+	})
+	handler := cors.Handler(mux)
 	return &Server{
 		&http.Server{
 			Addr:         config.Host + ":" + config.Port,
