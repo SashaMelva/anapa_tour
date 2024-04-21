@@ -9,6 +9,7 @@ import (
 	"github.com/SashaMelva/anapa_tour/internal/app"
 	"github.com/SashaMelva/anapa_tour/internal/config"
 	"github.com/SashaMelva/anapa_tour/server/hendler"
+	"github.com/rs/cors"
 	"go.uber.org/zap"
 )
 
@@ -39,10 +40,11 @@ func NewServer(log *zap.SugaredLogger, app *app.App, config *config.ConfigHttpSe
 	mux.HandleFunc("/change_bonuse/", h.ChangeBonusHendler)
 	mux.HandleFunc("/promotion/", h.PromotionHendler)
 
+	handler := cors.Default().Handler(mux)
 	return &Server{
 		&http.Server{
 			Addr:         config.Host + ":" + config.Port,
-			Handler:      mux,
+			Handler:      handler,
 			ReadTimeout:  timeout,
 			WriteTimeout: timeout,
 		},

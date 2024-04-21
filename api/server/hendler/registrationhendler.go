@@ -27,7 +27,6 @@ func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx conte
 	body, err := io.ReadAll(req.Body)
 	s.Logger.Info("parse")
 	if err != nil {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
@@ -35,7 +34,6 @@ func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx conte
 	} else {
 		err = json.Unmarshal(body, &account)
 		if err != nil {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
 			w.Header().Set("Content-Type", "application/json; charset=utf-8")
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -47,7 +45,6 @@ func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx conte
 
 	if err != nil {
 		// s.Logger.Fatal(err.Error())
-		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
@@ -58,7 +55,6 @@ func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx conte
 	id, errNew := s.app.RegisterAccount(&account)
 
 	if errNew != nil {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
@@ -67,7 +63,6 @@ func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx conte
 
 	s.Logger.Info("Ура регистрации")
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(fmt.Sprintf("id : %v", id)))
