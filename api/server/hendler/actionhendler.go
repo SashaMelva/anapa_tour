@@ -32,10 +32,9 @@ func (s *Service) ActionHendler(w http.ResponseWriter, req *http.Request) {
 		orgStr := args.Get("orgId")
 
 		if len(id) > 0 {
-			s.Logger.Info("id event " + id)
 			intId, err := strconv.Atoi(id)
 			if err != nil {
-				s.Logger.Error(fmt.Sprintf("is not valid if event id, got %v", id))
+				s.Logger.Error(err.Error())
 				http.Error(w, err.Error(), http.StatusBadRequest)
 				return
 			}

@@ -76,6 +76,14 @@ func (a *App) RegisterAccount(user *autenficationmodel.Account) (int, error) {
 
 	createdAccountId, err := a.storage.RegisterAccount(user)
 
+	if user.Role == "user" {
+		a.Logger.Info("Создаем баланс для пользователя")
+		err = a.storage.CreateBalanceBonus(createdAccountId)
+
+		if err != nil {
+			return 0, err
+		}
+	}
 	if err != nil {
 		return 0, err
 	}

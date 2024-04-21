@@ -33,7 +33,10 @@ func NewServer(log *zap.SugaredLogger, app *app.App, config *config.ConfigHttpSe
 	mux.HandleFunc("/action/", h.ActionHendler)
 	mux.HandleFunc("/organization/", h.OrganizationHendler)
 
+	mux.HandleFunc("/bonusbalance/", h.BonusHendler)
+
 	mux.HandleFunc("/pins_vew/", h.PinsVewHendler)
+	mux.HandleFunc("/change_bonuse/", h.ChangeBonusHendler)
 	mux.HandleFunc("/promotion/", h.PromotionHendler)
 
 	return &Server{
