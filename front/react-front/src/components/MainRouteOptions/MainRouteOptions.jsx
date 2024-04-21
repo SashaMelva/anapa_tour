@@ -88,7 +88,7 @@ const MyList = () => {
             </div>
           </div>
         </div>
-        <div className="routeCards_item" >
+        <div className="routeCards_item">
             <div className="routeCadrs_itemBlock">
               <div className="routeCards_itemText">
                 Повседневная практика показывает, что поПовседневная практика Повседневная практика показывает, 

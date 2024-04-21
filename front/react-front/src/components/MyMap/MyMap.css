@@ -29,6 +29,10 @@
   padding: 20px;
 }
 
+.isVisibleBtn {
+  display: block !important;
+}
+
 .chest_img {
   background: url(../../assets/images/chest.svg) 50% 50% no-repeat;
   padding: 40px

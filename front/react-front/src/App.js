@@ -34,28 +34,32 @@ function App() {
 function InnerApp() {
   const isAuth = useSelector(state => state.registration.isAuth); // Получаем значение isAuth из хранилища
 
-  const chests = [
-    {
-      position: [58.751574, 42.573856],
-      box: {},
-      org: {}
-    },
-    {
-      position: [52.751574, 41.573856],
-      box: {},
-      org: {}
-    },
-    {
-      position: [55.751574, 40.573856],
-      box: {},
-      org: {}
-    },
-    {
-      position: [51.751574, 38.573856],
-      box: {},
-      org: {}
-    }
-  ]
+  // const chests = [
+  //   {
+  //     position: [58.751574, 42.573856],
+  //     isOpen: false,
+  //     box: {},
+  //     org: {}
+  //   },
+  //   {
+  //     position: [52.751574, 41.573856],
+  //     isOpen: false,
+  //     box: {},
+  //     org: {}
+  //   },
+  //   {
+  //     position: [55.751574, 40.573856],
+  //     isOpen: false,
+  //     box: {},
+  //     org: {}
+  //   },
+  //   {
+  //     position: [51.751574, 38.573856],
+  //     isOpen: false,
+  //     box: {},
+  //     org: {}
+  //   }
+  // ]
 
   return (
       <div className="wrapper">
@@ -67,13 +71,13 @@ function InnerApp() {
                 <Route path="/" element={<Navigate to={`/registration`} />} />
                 <Route path='/registration/' element={<Registration />} />
                 <Route path='/personArea' element={isAuth ? <PersonArea /> : <Navigate to={'/registration'}/>} />
-                <Route path='/personArea/myMap' element={isAuth ? <MyMap chests={chests}/> : <Navigate to={'/registration'}/>}/>
-                <Route path="*" element={<div className='notFound'>404 Страница не найдена</div>} />
-                <Route path="/hotels" element={<Hotels/>}/>
-                <Route path="/restaurants" element={<Restaurants/>}/>
-                <Route path="/places" element={<Places/>}/>
-                <Route path="/home" element={<Home/>}/>
-                <Route path="/main/routeOptions" element={<MainRouteOptions/>}/>
+                <Route path='/personArea/myMap' element={isAuth ? <MyMap/> : <Navigate to={'/registration'}/>}/>
+                <Route path="*" element={<div className='notFound'>В скором времени будет реализовано...</div>} />
+                <Route path="/hotels" element={isAuth ? <Hotels/> : <Navigate to={'/registration'}/>}/>
+                <Route path="/restaurants" element={isAuth ? <Restaurants/> : <Navigate to={'/registration'}/>}/>
+                <Route path="/places" element={isAuth ? <Places/> : <Navigate to={'/registration'}/>}/>
+                <Route path="/home" element={isAuth ? <Home/> : <Navigate to={'/registration'}/>}/>
+                <Route path="/main/routeOptions" element={isAuth ? <MainRouteOptions/> : <Navigate to={'/registration'}/>}/>
               </Routes>
             </div>
           </React.Suspense>

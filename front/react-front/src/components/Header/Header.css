@@ -6,6 +6,8 @@
   position: fixed;
   width: 100%;
   padding: 10px 0;
+  border-bottom: 2px solid #484AA1;
+  z-index: 4;
 }
 
 .Nav a {
@@ -14,7 +16,6 @@
 }
 
 .Nav .active {
-  color: #6c757d !important;
   border-bottom: 2px solid #484AA1;
 }
 
@@ -38,7 +39,9 @@
 .dropdown-menu a {
   color: rgb(33, 37, 41);
 }
-
+#nav-dropdown {
+  color: rgb(33, 37, 41)
+}
 .dropdown-menu .active {
   color: white !important;
   background-color: rgb(13, 110, 253) !important;

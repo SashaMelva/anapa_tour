@@ -3,12 +3,14 @@ import thunk from "redux-thunk";
 import { compose } from "redux"; 
 import toastReducer from "./toastReducer";
 import registrationReducer from "./registrationReducer";
+import chestReducer from "./chestReducer";
 
 
 
 const reducers = combineReducers({
   toast: toastReducer,
-  registration: registrationReducer
+  registration: registrationReducer,
+  chestObj: chestReducer
 });
 
 

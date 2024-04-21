@@ -32,7 +32,6 @@ const Header = (props) => {
           <NavLink to='/personArea/treasureMap'>Карта сокровищ</NavLink>
       </NavDropdown>
       </Nav>
-      <div>alexandrNik</div>
     </Navbar.Collapse>
   </Container>
 </Navbar>

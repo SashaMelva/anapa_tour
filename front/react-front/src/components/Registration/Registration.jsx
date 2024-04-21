@@ -34,13 +34,18 @@ class Registration extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+
     const data = {
-      login: this.state.login,
-      password: this.state.password
+      "id": 0,
+      "login": this.state.login,
+      "password": this.state.password,
+      "role": "admin"
     }
 
     if(!this.state.isRegistration) {
       authApi.login(data)
+      this.props.setToastAc({body: "Авторизация прошла успешно!", delay: 2000})
+      this.props.authIn()
     } else {
       if(this.state.password === this.state.passwordAgain) {
         authApi.reg(data)

@@ -3,7 +3,8 @@ const AUTH_IN = "reg/AUTH_IN"
 const AUTH_OUT = "reg/AUTH_OUT"
 
 let initialState = {
-  isAuth: false
+  isAuth: false,
+  login: null
 }
 
 const registrationReducer = (state = initialState, action) => {
@@ -11,6 +12,7 @@ const registrationReducer = (state = initialState, action) => {
     case AUTH_IN:
       return {
         ...state,
+        login: action.login,
         isAuth: true,
       }
     case AUTH_OUT:
@@ -24,7 +26,7 @@ const registrationReducer = (state = initialState, action) => {
 }
 
 
-export const authIn = () => ({ type: AUTH_IN } )
+export const authIn = (login) => ({ type: AUTH_IN, login } )
 export const  authOut = () => ({ type: AUTH_OUT } )
 
 
