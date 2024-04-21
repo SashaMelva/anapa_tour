@@ -13,6 +13,7 @@ import (
 )
 
 func (s *Service) PinHendler(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
 	if req.URL.Path == "/pin/" {

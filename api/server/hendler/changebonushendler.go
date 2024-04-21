@@ -14,6 +14,7 @@ import (
 func (s *Service) ChangeBonusHendler(w http.ResponseWriter, req *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if req.Method == http.MethodPost {
 		s.changeBalance(w, req, ctx)
 	} else {

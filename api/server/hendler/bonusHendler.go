@@ -12,6 +12,7 @@ import (
 func (s *Service) BonusHendler(w http.ResponseWriter, req *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if req.URL.Path == "/bonusbalance/" {
 		// switch req.Method {
 		// // case http.MethodPost:

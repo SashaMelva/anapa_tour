@@ -48,11 +48,11 @@ func (s *Service) regAccount(w http.ResponseWriter, req *http.Request, ctx conte
 	if err != nil {
 		// s.Logger.Fatal(err.Error())
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(err.Error()))
 		return
 	}
-	s.Logger.Info("Плдбзователя с таким логин не существует")
+	s.Logger.Info("Пoльзователя с таким логин не существует")
 	s.Logger.Info("Старт регистрации")
 	id, errNew := s.app.RegisterAccount(&account)
 
