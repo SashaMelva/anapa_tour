@@ -2,6 +2,7 @@ package app
 
 import (
 	"errors"
+	"time"
 
 	marcketmodel "github.com/SashaMelva/anapa_tour/internal/storage/model/marcket"
 )
@@ -38,6 +39,9 @@ func (a *App) ByProductions(byData marcketmodel.ByProduction) error {
 	}
 
 	err = a.storage.ByProductions(byData.ContScklad-1, byData.IdProd)
+
+	time := time.Now()
+	err = a.storage.CreateTicket(time.Format("2006-01-02 15:04:05"), byData.IdAccount, byData.IdProd)
 
 	if err != nil {
 		return err

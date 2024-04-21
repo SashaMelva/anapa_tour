@@ -46,3 +46,14 @@ func (s *Storage) ByProductions(counts int, id int) error {
 
 	return nil
 }
+
+func (s *Storage) CreateTicket(time string, idacc int, id int) error {
+	query := `insert into ticket_market(date, account_id, product_id) values($1, $2, $3) `
+	_, err := s.ConnectionDB.Exec(query, time, idacc, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
