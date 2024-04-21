@@ -15,7 +15,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-func TestHendlerEvent(t *testing.T) {
+func TestRegistrationHendler(t *testing.T) {
 	serever := testService()
 	testCase := []struct {
 		name       string
@@ -37,7 +37,7 @@ func TestHendlerEvent(t *testing.T) {
 			name:       "reg user",
 			method:     http.MethodPost,
 			path:       "/registration/",
-			body:       []byte(`{"id":0,"login":"login23","password":"password","role":"admin"}`),
+			body:       []byte(`{"id":0,"login":"wwwwww","password":"password","role":"user"}`),
 			want:       ``,
 			statusCode: http.StatusOK,
 		},

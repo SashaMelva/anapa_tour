@@ -2,6 +2,7 @@ package app
 
 import (
 	"errors"
+	"fmt"
 	"log"
 
 	"github.com/SashaMelva/anapa_tour/internal/storage/memory"
@@ -93,7 +94,7 @@ func (a *App) RegisterAccount(user *autenficationmodel.Account) (int, error) {
 
 func (a *App) CheckUniqueLogin(login string) error {
 	id, err := a.storage.CheckUniqueLogin(login)
-
+	fmt.Println(id)
 	if err != nil {
 		return err
 	}
